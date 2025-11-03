@@ -45,3 +45,22 @@ VALUES 	('Ação'),
 		('Romance'),
 		('Animação');
 		
+CREATE TABLE tbl_pais (
+	id_pais int primary key auto_increment not null,
+	nome varchar(200) not null
+);
+
+INSERT INTO tbl_pais (nome)
+VALUES ('Estados Unidos'),
+		('Brasil'),
+		('Inglaterra');
+
+CREATE TABLE tbl_plataforma (
+	id_plataforma int primary key auto_increment not null,
+	nome varchar(100) not null
+);
+
+INSERT INTO tbl_plataforma (nome)
+VALUES ('Cinema'),
+		('Disney +'),
+		('Netflix');

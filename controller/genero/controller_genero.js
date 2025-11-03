@@ -140,13 +140,43 @@ const atualizarGenero = async function(genero, id, contentType) {
 }
 
 const excluirGenero = async function(id, contentType) {
-    let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
+    let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES));
 
-    try {
-        
-    } catch (error) {
-        
+  try {
+    if (!contentType || String(contentType).toUpperCase() == "APPLICATION/JSON") {
+      
+      if (!isNaN(id) && id > 0) {
+
+        let validarId = await buscarGeneroId(id);
+
+        if (validarId.status_code == 200) {
+          let resultGenres = await generoDao.setDeleteGenres(id);
+
+          if (resultGenres) {
+            MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_DELETED_ITEM.status;
+            MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_DELETED_ITEM.status_code;
+            MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_DELETED_ITEM.message;
+
+            return MESSAGES.DEFAULT_HEADER; // 201
+          } else {
+            return MESSAGES.ERROR_INTERNAL_SERVER_MODEL; // 500 - erro no DAO
+          }
+        } else {
+          return validarId; // Pode retornar 404, 400 ou 500 da função buscarFilmeId
+        }
+
+      } else {
+        MESSAGES.ERROR_REQUIRED_FIELDS.message += " [Id incorreto]";
+        return MESSAGES.ERROR_REQUIRED_FIELDS; // 400
+      }
+
+    } else {
+      return MESSAGES.ERROR_CONTENT_TYPE; // 415
     }
+
+  } catch (error) {
+    return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER; // 500
+  }
 }
 
 const validarDadosGenero = async function(genero) {
@@ -170,5 +200,6 @@ module.exports = {
     buscarGeneroId,
     validarDadosGenero,
     inserirNovoGenero,
-    atualizarGenero
+    atualizarGenero, 
+    excluirGenero
 }
