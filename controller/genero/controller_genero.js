@@ -100,6 +100,55 @@ const inserirNovoGenero = async function (genero, contentType) {
     }
 }
 
+const atualizarGenero = async function(genero, id, contentType) {
+     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES));
+
+     try {
+        if (String(contentType).toUpperCase() == "APPLICATION/JSON") {
+              let validar = await validarDadosGenero(genero);
+        
+              if (!validar) {
+                let validarId = await buscarGeneroId(id);
+        
+                if (validarId.status_code == 200) {
+ 
+                  genero.id = Number(id)
+                  let resultGenres = await generoDao.setUpdateGenres(genero);
+        
+                  if (resultGenres) {
+                    MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status;
+                    MESSAGES.DEFAULT_HEADER.status_code =MESSAGES.SUCCESS_CREATED_ITEM.status_code;
+                    MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_CREATED_ITEM.message;
+                    MESSAGES.DEFAULT_HEADER.itens.genero = genero;
+        
+                    return MESSAGES.DEFAULT_HEADER; //201
+                  } else {
+                    return MESSAGES.ERROR_INTERNAL_SERVER_MODEL; //500
+                  }
+                } else {
+                  return validarId // A função buscar poderá retornar (400, 404 ou 500)
+                }
+              } else {
+                return validar; //400 -> Referente a validação dos dados
+              }
+            } else {
+              return MESSAGES.ERROR_CONTENT_TYPE; //415
+            }
+     } catch (error) {
+        return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER;
+     }
+}
+
+const excluirGenero = async function(id, contentType) {
+    let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
+
+    try {
+        
+    } catch (error) {
+        
+    }
+}
+
 const validarDadosGenero = async function(genero) {
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES));
 
@@ -120,5 +169,6 @@ module.exports = {
     listarGeneros,
     buscarGeneroId,
     validarDadosGenero,
-    inserirNovoGenero
+    inserirNovoGenero,
+    atualizarGenero
 }

@@ -72,9 +72,47 @@ const setInsertGenres = async function(genero) {
     }
 }
 
+const setUpdateGenres = async function(genero) {
+    try {
+        let sql = `UPDATE tbl_genero set 
+        categoria = '${genero.categoria}'
+
+        where id_genero = ${genero.id}`
+    
+        let result = await prisma.$executeRawUnsafe(sql)
+    
+        if(result)
+          return true
+        else
+          return false
+    
+      } catch (error) {
+        //console.log(error)
+        return false
+      }
+    
+}
+
+const setDeleteGenres = async function(id) {
+    try {
+        let sql = `DELETE from tbl_genero where id_genero = ${id}`
+
+        let result = await prisma.$executeRawUnsafe(sql)
+
+        if(result)
+            return true
+        else
+            return false
+    } catch (error) {
+        
+    }
+}
+
 module.exports = {
     getSelectAllGenres,
     getSelectByIdGenres,
     getSelectLastId,
-    setInsertGenres
+    setInsertGenres,
+    setUpdateGenres,
+    setDeleteGenres
 }

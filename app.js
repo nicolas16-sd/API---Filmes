@@ -103,9 +103,34 @@ app.get('/v1/locadora/generos/:id', cors(), async function(request, response) {
 })
 
 //inserirNovoGenero() -> Permite a inserção de um novo gênero
-app.post('/v1/locadora/filme', cors(), bodyParserJSON, async function(request, response) {
+app.post('/v1/locadora/generos', cors(), bodyParserJSON, async function(request, response) {
+    let dadosBody = request.body
+    let contentType = request.headers['content-type']
+    let generos = await controllerGenero.inserirNovoGenero(dadosBody, contentType)
+
+    response.status(generos.status_code)
+    response.json(generos)
 })
 
+app.put('/v1/locadora/generos/:id', cors(), bodyParserJSON, async function(request, response) {
+    //Recebe o Id do Filme
+    let idGenero = request.params.id
+
+    //Recebe os dados a serem atualizados
+    let dadosBody = request.body
+
+    //Recebe o content-type da requisição
+    let contentType = request.headers['content-type']
+
+    let genero = await controllerGenero.atualizarGenero(dadosBody, idGenero, contentType)
+
+    response.status(genero.status_code)
+    response.json(genero)
+})
+
+/* ENDPOINTS PARA AS ROTAS DE PAÍSES */
+
+/* ENDPOINTS PARA AS ROTAS DE PLATAFORMAS */
 app.listen(PORT, function(){
     console.log('API aguardando requisições!')
 })
