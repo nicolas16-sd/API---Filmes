@@ -121,7 +121,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\25132912\\Documents\\Nicolas (Back-End)\\Banco-Duroflix\\generated\\prisma",
+      "value": "C:\\Users\\Simone Camila Durao\\Documents\\Nicolas (Back-end)\\API---Filmes\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -135,7 +135,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\25132912\\Documents\\Nicolas (Back-End)\\Banco-Duroflix\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\Simone Camila Durao\\Documents\\Nicolas (Back-end)\\API---Filmes\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

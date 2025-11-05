@@ -8,13 +8,394 @@ info:
     email: nicolas.dsd16@gmail.com
 
 servers: 
-  - url: https://api-locadora-filmes.onrender.com
-  description: Servidor local de desenvolvimento
+  - url: https://api-filmes-1-c7xm.onrender.com
+      
+paths:
+  /filme:
+    get:
+      tags:
+        - Filme
+      summary: Lista todos os filmes
+      responses:
+        '200':
+          description: Lista de filmes retornada com sucesso
+        '500':
+          description: Erro interno do servidor
 
-tags: 
-  - name: Filmes
-  - name: Gêneros
-  - name: Países
-  - name: Plataforma
+    post:
+      tags:
+        - Filme
+      summary: Cadastra um novo filme
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Filme'
+      responses:
+        '201':
+          description: Filme cadastrado com sucesso
+        '400':
+          description: Erro nos dados enviados
 
-  
+  /filme/{id}:
+    get:
+      tags:
+        - Filme
+      summary: Retorna um filme pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Filme encontrado
+        '404':
+          description: Filme não encontrado
+
+    put:
+      tags:
+        - Filme
+      summary: Atualiza um filme existente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Filme'
+      responses:
+        '200':
+          description: Filme atualizado
+        '400':
+          description: Erro nos dados enviados
+
+    delete:
+      tags:
+        - Filme
+      summary: Exclui um filme pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Filme excluído com sucesso
+        '404':
+          description: Filme não encontrado
+
+  /genero:
+    get:
+      tags:
+        - Gênero
+      summary: Lista todos os gêneros
+      responses:
+        '200':
+          description: Lista de gêneros retornada com sucesso
+        '500':
+          description: Erro interno do servidor
+
+    post:
+      tags:
+        - Gênero
+      summary: Cadastra um novo gênero
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Genero'
+      responses:
+        '201':
+          description: Gênero cadastrado com sucesso
+        '400':
+          description: Erro nos dados enviados
+
+  /genero/{id}:
+    get:
+      tags:
+        - Gênero
+      summary: Retorna um gênero pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Gênero encontrado
+        '404':
+          description: Gênero não encontrado
+
+    put:
+      tags:
+        - Gênero
+      summary: Atualiza um gênero existente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Genero'
+      responses:
+        '200':
+          description: Gênero atualizado
+        '400':
+          description: Erro nos dados enviados
+
+    delete:
+      tags:
+        - Gênero
+      summary: Exclui um gênero pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Gênero excluído com sucesso
+        '404':
+          description: Gênero não encontrado
+
+  /pais:
+    get:
+      tags:
+        - País
+      summary: Lista todos os países
+      responses:
+        '200':
+          description: Lista de países retornada com sucesso
+        '500':
+          description: Erro interno do servidor
+
+    post:
+      tags:
+        - País
+      summary: Cadastra um novo país
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pais'
+      responses:
+        '201':
+          description: País cadastrado com sucesso
+        '400':
+          description: Erro nos dados enviados
+
+  /pais/{id}:
+    get:
+      tags:
+        - País
+      summary: Retorna um país pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: País encontrado
+        '404':
+          description: País não encontrado
+
+    put:
+      tags:
+        - País
+      summary: Atualiza um país existente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pais'
+      responses:
+        '200':
+          description: País atualizado
+        '400':
+          description: Erro nos dados enviados
+
+    delete:
+      tags:
+        - País
+      summary: Exclui um país pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: País excluído com sucesso
+        '404':
+          description: País não encontrado
+
+  /plataforma:
+    get:
+      tags:
+        - Plataforma
+      summary: Lista todas as plataformas
+      responses:
+        '200':
+          description: Lista de plataformas retornada com sucesso
+        '500':
+          description: Erro interno do servidor
+
+    post:
+      tags:
+        - Plataforma
+      summary: Cadastra uma nova plataforma
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Plataforma'
+      responses:
+        '201':
+          description: Plataforma cadastrada com sucesso
+        '400':
+          description: Erro nos dados enviados
+
+  /plataforma/{id}:
+    get:
+      tags:
+        - Plataforma
+      summary: Retorna uma plataforma pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Plataforma encontrada
+        '404':
+          description: Plataforma não encontrada
+
+    put:
+      tags:
+        - Plataforma
+      summary: Atualiza uma plataforma existente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Plataforma'
+      responses:
+        '200':
+          description: Plataforma atualizada
+        '400':
+          description: Erro nos dados enviados
+
+    delete:
+      tags:
+        - Plataforma
+      summary: Exclui uma plataforma pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Plataforma excluída com sucesso
+        '404':
+          description: Plataforma não encontrada
+
+components:
+  schemas:
+    Filme:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: Vingadores Ultimato
+        sinopse:
+          type: string
+          example: Os heróis enfrentam Thanos em uma batalha final.
+        data_lancamento:
+          type: string
+          format: date
+          example: 2019-04-26
+        duracao:
+          type: string
+          example: 3h02min
+        orcamento:
+          type: number
+          example: 356000000
+        trailer:
+          type: string
+          example: https://youtube.com/trailer
+        capa:
+          type: string
+          example: https://image.com/poster.jpg
+
+    Genero:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        categoria:
+          type: string
+          example: Ação
+
+    Pais:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: Brasil
+
+    Plataforma:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: Netflix
