@@ -1,9 +1,19 @@
 {
+  "name": "api-locadora-filmes",
+  "version": "1.0.0",
+  "description": "API de locadora de filmes com Node.js e Express",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
   "dependencies": {
     "@prisma/client": "^6.16.3",
-    "body-parser": "^2.2.0",
+    "body-parser": "^1.20.3",
     "cors": "^2.8.5",
-    "express": "^5.1.0",
+    "express": "^4.19.2",
     "prisma": "^6.16.3"
+  },
+  "engines": {
+    "node": ">=18.x"
   }
 }
