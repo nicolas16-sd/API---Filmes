@@ -4,18 +4,19 @@
   "description": "API de locadora de filmes com Node.js, Express e Prisma",
   "main": "app.js",
   "scripts": {
-    "build": "npx prisma generate",
+    "prisma:generate": "npx prisma generate",
     "start": "node app.js"
   },
   "dependencies": {
-    "@prisma/client": "^6.16.3",
-    "body-parser": "^1.20.3",
-    "cors": "^2.8.5",
-    "express": "^4.19.2",
-    "prisma": "^6.16.3"
+    "@prisma/client": "6.16.3",
+    "body-parser": "1.20.3",
+    "cors": "2.8.5",
+    "express": "4.19.2",
+    "prisma": "6.16.3"
   },
   "engines": {
     "node": ">=18.x"
   }
 }
+
 

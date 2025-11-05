@@ -1,1 +1,20 @@
-"openapi:" 3.0.0
+openapi: 3.0.0
+info: 
+  title: API Locadora de Filmes
+  description: API REST criada para gerenciar filmes, gêneros, países e plataformas.
+  version: 1.0.0
+  contact:
+    name: Nicolas dos Santos Durão
+    email: nicolas.dsd16@gmail.com
+
+servers: 
+  - url: https://api-locadora-filmes.onrender.com
+  description: Servidor local de desenvolvimento
+
+tags: 
+  - name: Filmes
+  - name: Gêneros
+  - name: Países
+  - name: Plataforma
+
+  
