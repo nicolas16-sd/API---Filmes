@@ -1,9 +1,10 @@
 {
   "name": "api-locadora-filmes",
   "version": "1.0.0",
-  "description": "API de locadora de filmes com Node.js e Express",
+  "description": "API de locadora de filmes com Node.js, Express e Prisma",
   "main": "app.js",
   "scripts": {
+    "build": "npx prisma generate",
     "start": "node app.js"
   },
   "dependencies": {
@@ -17,3 +18,4 @@
     "node": ">=18.x"
   }
 }
+
