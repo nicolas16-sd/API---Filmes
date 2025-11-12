@@ -5,7 +5,7 @@
  * Autor: Nicolas dos Santos Durão
  * ****************************************************************************/
 
-const { PrismaClient } = require('../../generated/prisma');
+const { PrismaClient } = require('../../../generated/prisma');
 
 const prisma = new PrismaClient();
 

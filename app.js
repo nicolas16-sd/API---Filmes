@@ -12,15 +12,16 @@ const bodyParser = require('body-parser')
 //Objeto especialista em receber conteúdos JSON (POST e PUT)
 const bodyParserJSON = bodyParser.json()
 
-const moviesRoutes = require('./routes/moviesRoutes.js')
-const genresRoutes = require('./routes/genresRoutes.js')
-const countriesRoutes = require('./routes/countriesRoutes.js')
-const platformRoutes = require('./routes/platformRoutes.js')
+const moviesRoutes = require('./src/routes/moviesRoutes.js')
+const genresRoutes = require('./src/routes/genresRoutes.js')
+const countriesRoutes = require('./src/routes/countriesRoutes.js')
+const platformRoutes = require('./src/routes/platformRoutes.js')
 
 
 const PORT = process.env.PORT || 8080
 
 const app = express()
+app.use(bodyParserJSON)
 
 app.use((request, response, next) => {
     response.header('Access-Control-Allow-Origin', '*') 

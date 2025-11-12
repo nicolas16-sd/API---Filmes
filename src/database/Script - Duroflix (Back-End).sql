@@ -64,3 +64,15 @@ INSERT INTO tbl_plataforma (nome)
 VALUES ('Cinema'),
 		('Disney +'),
 		('Netflix');
+        
+CREATE TABLE tbl_filme_genero (
+	nome varchar(100),
+    sinopse text,
+    id int,
+    id_genero int,
+    foreign key (id) references tbl_filme(id),
+    foreign key (id_genero) references tbl_genero(id_genero)
+);
+
+ALTER TABLE tbl_filme_genero add column id_filme_genero int not null;
+ALTER TABLE tbl_filme_genero add primary key (id_filme_genero);

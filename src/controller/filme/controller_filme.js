@@ -6,6 +6,7 @@
  * ****************************************************************************/
 
 const filmeDAO = require("../../model/DAO/filme.js");
+const controllerFilmeGenero = require('../../controller/filme/controller_filme_genero.js')
 const DEFAULT_MESSAGES = require("../modulo/config_messages.js");
 
 //Retorna uma lista de todos os filmes
@@ -87,12 +88,32 @@ const inserirFilme = async function (filme, contentType) {
           let lastId = await filmeDAO.getSelectLastId()
 
           if(lastId) {
+
+            for (genero of filme.genero) {
+              let filmeGenero = {id_filme: lastId, id_genero: genero.id}
+
+              let resultFilmesGenero = await controllerFilmeGenero.inserirFilmeGenero(filmeGenero, contentType)
+
+              if(resultFilmesGenero.status_code != 201)
+                return MESSAGES.ERROR_RELATIONAL_INSERTION //500 Problema de tabela de relação
+            }
+
             //Adiciona o ID no JSON com os dados do filme
             filme.id = lastId 
 
             MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status;
             MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code;
             MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_CREATED_ITEM.message;
+
+            //Adicionar no JSON dados do gênero
+            delete filme.genero
+
+            //Pesquisa no BD todos os gêneros que foram associados ao filme
+            let resultDadosGenero = await controllerFilmeGenero.listarGenerosIdFilme(lastId)
+
+            //Cria novamente o atributo gênero e coloca o resultado do BD com os gêneros
+            filme.genero = resultDadosGenero.itens.filme_genero
+
             MESSAGES.DEFAULT_HEADER.itens = filme
 
             return MESSAGES.DEFAULT_HEADER; //201
