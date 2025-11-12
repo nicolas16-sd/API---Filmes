@@ -66,13 +66,22 @@ VALUES ('Cinema'),
 		('Netflix');
         
 CREATE TABLE tbl_filme_genero (
-	nome varchar(100),
-    sinopse text,
-    id int,
-    id_genero int,
-    foreign key (id) references tbl_filme(id),
-    foreign key (id_genero) references tbl_genero(id_genero)
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  id_filme INT NOT NULL,
+  id_genero INT NOT NULL,
+  FOREIGN KEY (id_filme) REFERENCES tbl_filme(id),
+  FOREIGN KEY (id_genero) REFERENCES tbl_genero(id)
 );
 
-ALTER TABLE tbl_filme_genero add column id_filme_genero int not null;
-ALTER TABLE tbl_filme_genero add primary key (id_filme_genero);
+CREATE TABLE tbl_classificacao_indicativa (
+	id_classificacao_indicativa int not null primary key auto_increment,
+	nome varchar(10) not null
+);
+
+INSERT INTO tbl_classificacao_indicativa (nome)
+VALUES ('Livre'),
+		('10'),
+		('12'),
+		('14'),
+		('16'),
+		('18');

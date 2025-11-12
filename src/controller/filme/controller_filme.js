@@ -20,6 +20,15 @@ const listarFilmes = async function () {
 
     if (resultFilmes) {
       if (resultFilmes.length > 0) {
+        //Processamento para adicionar os Gêneros aos filmes
+        for (filme of resultFilmes) {
+          let resultGeneros = await controllerFilmeGenero.listarGenerosIdFilme(filme.id)
+
+          if(resultGeneros.status_code == 200){
+            filme.genero = resultGeneros.itens.filmes_generos
+          } 
+        }
+
         //Pegando o status code da requisição de sucesso
         DEFAULT_MESSAGES.DEFAULT_HEADER.status =
           DEFAULT_MESSAGES.SUCCESS_REQUEST.status;
@@ -90,7 +99,7 @@ const inserirFilme = async function (filme, contentType) {
           if(lastId) {
 
             for (genero of filme.genero) {
-              let filmeGenero = {id_filme: lastId, id_genero: genero.id}
+              let filmeGenero = {id_filme: lastId, id_genero: genero.id_genero}
 
               let resultFilmesGenero = await controllerFilmeGenero.inserirFilmeGenero(filmeGenero, contentType)
 
@@ -112,7 +121,7 @@ const inserirFilme = async function (filme, contentType) {
             let resultDadosGenero = await controllerFilmeGenero.listarGenerosIdFilme(lastId)
 
             //Cria novamente o atributo gênero e coloca o resultado do BD com os gêneros
-            filme.genero = resultDadosGenero.itens.filme_genero
+            filme.filme_generos = resultDadosGenero.itens.filme_generos
 
             MESSAGES.DEFAULT_HEADER.itens = filme
 

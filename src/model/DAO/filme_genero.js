@@ -1,189 +1,136 @@
 /******************************************************************************
- * Objetivo: Arquivo responsável pelo CRUD de dados no MySQL referente a tabela intermediária entre filme e gênero
+ * Objetivo: Arquivo responsável pelo CRUD de dados no MySQL referente à tabela intermediária entre Filme e Gênero
  * Versão: 1.0
  * Data: 01/10/2025
  * Autor: Nicolas dos Santos Durão
- * ****************************************************************************/
+ *****************************************************************************/
 
-// Import da dependência do Prisma que permite a execução de script SQL no BD
+// Import da dependência do Prisma
 const { PrismaClient } = require('../../../generated/prisma')
 
 // Cria um novo objeto baseado na classe do PrismaClient
 const prisma = new PrismaClient()
 
-// 1- Retorna uma lista de todos os filmes e gêneros do banco de dados
-const getSelectAllmoviesGenres = async function () {
-    try {
-        // Script SQL
-        let sql = `select * from tbl_filme_genero order by id desc`
-
-        // Encaminha para o BD o script SQL
-        let result = await prisma.$queryRawUnsafe(sql)
-
-        if (Array.isArray(result))
-
-            return result
-        else
-            return false
-
-    } catch (error) {
-        return false
-    }
+// 1 - Retorna uma lista de todos os filmes e gêneros
+const getSelectAllMoviesGenres = async function () {
+  try {
+    const sql = `SELECT * FROM tbl_filme_genero ORDER BY id_filme_genero DESC`
+    const result = await prisma.$queryRawUnsafe(sql)
+    return Array.isArray(result) ? result : false
+  } catch {
+    return false
+  }
 }
 
-// 2- Retorna uma lista de todos os gêneros filtrando pelo ID
+// 2 - Retorna um registro filtrando pelo ID
 const getSelectByIdGenres = async function (id) {
-    try {
-        // Script SQL
-        let sql = `select * from tbl_filme_genero where id = ${id}`
-
-        // Encaminha para o BD o script SQL
-        let result = await prisma.$queryRawUnsafe(sql)
-
-        if (Array.isArray(result))
-            return result
-        else
-            return false
-
-    } catch (error) {
-        return false
-    }
+  try {
+    const sql = `SELECT * FROM tbl_filme_genero WHERE id_filme_genero = ${id}`
+    const result = await prisma.$queryRawUnsafe(sql)
+    return Array.isArray(result) ? result : false
+  } catch {
+    return false
+  }
 }
 
-// 3- Retorna uma lista de todos os gêneros filtrando pelo ID do filme
+// 3 - Retorna gêneros de um filme
 const getSelectGenresByIdMovies = async function (id_filme) {
-    try {
-        // Script SQL
-        let sql = `select tbl_genero.id, tbl_genero.categoria
-                        from tbl_filme 
-                            inner join tbl_filme_genero
-                            on tbl_filme.id = tbl_filme_genero.id_filme
-                            inner join tbl_genero
-                            on tbl_genero.id = tbl_filme_genero.id_genero
-                        where tbl_filme.id = ${id_filme}`
-
-        // Encaminha para o BD o script SQL
-        let result = await prisma.$queryRawUnsafe(sql)
-
-        if (Array.isArray(result))
-            return result
-        else
-            return false
-
-    } catch (error) {
-        return false
-    }
+  try {
+    const sql = `
+      SELECT g.id_genero, g.categoria
+      FROM tbl_filme f
+      INNER JOIN tbl_filme_genero fg ON f.id = fg.id_filme
+      INNER JOIN tbl_genero g ON g.id_genero = fg.id_genero
+      WHERE f.id = ${id_filme}
+    `
+    const result = await prisma.$queryRawUnsafe(sql)
+    return Array.isArray(result) ? result : false
+  } catch {
+    return false
+  }
 }
 
-// 4- Retorna uma lista de todos os filmes filtrando pelo ID do gêneros
+// 4 - Retorna filmes de um gênero
 const getSelectMoviesByIdGenres = async function (id_genero) {
-    try {
-        // Script SQL
-        let sql = `select tbl_filme.id. tbl_filme.nome
-                        from tbl_filme 
-                                inner join tbl_filme_genero
-                                on tbl_filme.id = tbl_filme_genero.id_filme
-                                inner join tbl_genero
-                                on tbl_genero.id = tbl_filme_genero.id_genero
-                        where tbl_genero.id = ${id_genero}`
-
-        // Encaminha para o BD o script SQL
-        let result = await prisma.$queryRawUnsafe(sql)
-
-        if (Array.isArray(result))
-            return result
-        else
-            return false
-
-    } catch (error) {
-        return false
-    }
+  try {
+    const sql = `
+      SELECT f.id, f.nome
+      FROM tbl_filme f
+      INNER JOIN tbl_filme_genero fg ON f.id = fg.id_filme
+      INNER JOIN tbl_genero g ON g.id_genero = fg.id_genero
+      WHERE g.id_genero = ${id_genero}
+    `
+    const result = await prisma.$queryRawUnsafe(sql)
+    return Array.isArray(result) ? result : false
+  } catch {
+    return false
+  }
 }
 
-// Retorna o último id inserido no banco de dados
+// 5 - Retorna o último ID inserido
 const getSelectLastId = async function () {
-    try {
-        // Script sql para retornar apenas o último id do BD
-        let sql = `select id from tbl_filme_genero order by id desc limit 1`
+  try {
+    const sql = `SELECT id_filme_genero FROM tbl_filme_genero ORDER BY id_filme_genero DESC LIMIT 1`
+    const result = await prisma.$queryRawUnsafe(sql)
 
-        // Encaminha para o BD o script SQL
-        let result = await prisma.$queryRawUnsafe(sql)
+    if (Array.isArray(result) && result.length > 0)
+      return Number(result[0].id_filme_genero)
+    else
+      return false
 
-        if (Array.isArray(result))
-            return Number(result[0].id)
-        else
-            return false
-
-
-    } catch (error) {
-        return false
-    }
+  } catch {
+    return false
+  }
 }
 
-// 5- Insere um novo genero no banco de dados
+// 6 - Insere uma nova relação entre filme e gênero
 const setInsertMoviesGenres = async function (filmeGenero) {
-    try {
-      let sql = `insert into tbl_filme_genero (id_filme, id_genero)
-                 values (${filmeGenero.id_filme}, ${filmeGenero.id_genero})`;
-  
-      let result = await prisma.$executeRawUnsafe(sql);
-      return result ? true : false;
-    } catch (error) {
-      return false;
-    }
-  };
-  
-
-// 6- Altera um gênero no banco de dados
-const setUpdateMoviesGenres = async function (genero) {
-    try {
-        let sql = `update tbl_filme_genero 
-            set id_filme = ${filmeGenero.id_filme}, 
-                id_genero = ${filmeGenero.id_genero}
-            where id = ${filmeGenero.id}`;
-
-
-        // $executeRawUnsafe() -> Permite executar um script SQL de uma variável e que NÃO retorna valores do BD (INSERT, UPDATE, DELETE)
-        let result = await prisma.$executeRawUnsafe(sql)
-
-        if (result)
-            return true
-        else
-            return false
-
-    } catch (error) {
-        return false
-    }
-
+  try {
+    const sql = `
+      INSERT INTO tbl_filme_genero (id_filme, id_genero)
+      VALUES (${filmeGenero.id_filme}, ${filmeGenero.id_genero})
+    `
+    const result = await prisma.$executeRawUnsafe(sql)
+    return result ? true : false
+  } catch {
+    return false
+  }
 }
 
-// 7- Deleta um gênero no banco de dados
+// 7 - Atualiza uma relação
+const setUpdateMoviesGenres = async function (filmeGenero) {
+  try {
+    const sql = `
+      UPDATE tbl_filme_genero
+      SET id_filme = ${filmeGenero.id_filme},
+          id_genero = ${filmeGenero.id_genero}
+      WHERE id_filme_genero = ${filmeGenero.id_filme_genero}
+    `
+    const result = await prisma.$executeRawUnsafe(sql)
+    return result ? true : false
+  } catch {
+    return false
+  }
+}
+
+// 8 - Deleta uma relação
 const setDeleteMoviesGenres = async function (id) {
-    try {
-        // Script SQL
-        let sql = `delete from tbl_filme_genero where id = ${id}`
-
-        // Encaminha para o BD o script SQL
-        let result = await prisma.$executeRawUnsafe(sql)
-
-        if (result)
-            return true
-        else
-            return false
-
-    } catch (error) {
-        return false
-    }
-
+  try {
+    const sql = `DELETE FROM tbl_filme_genero WHERE id_filme_genero = ${id}`
+    const result = await prisma.$executeRawUnsafe(sql)
+    return result ? true : false
+  } catch {
+    return false
+  }
 }
 
 module.exports = {
-    getSelectAllmoviesGenres,
-    getSelectByIdGenres,
-    getSelectGenresByIdMovies,
-    getSelectMoviesByIdGenres,
-    getSelectLastId,
-    setInsertMoviesGenres,
-    setUpdateMoviesGenres,
-    setDeleteMoviesGenres
-}
+  getSelectAllMoviesGenres,
+  getSelectByIdGenres,
+  getSelectGenresByIdMovies,
+  getSelectMoviesByIdGenres,
+  getSelectLastId,
+  setInsertMoviesGenres,
+  setUpdateMoviesGenres,
+  setDeleteMoviesGenres
+}   

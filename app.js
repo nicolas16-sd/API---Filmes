@@ -16,6 +16,7 @@ const moviesRoutes = require('./src/routes/moviesRoutes.js')
 const genresRoutes = require('./src/routes/genresRoutes.js')
 const countriesRoutes = require('./src/routes/countriesRoutes.js')
 const platformRoutes = require('./src/routes/platformRoutes.js')
+const classificationRoutes = require('./src/routes/classificationsRoutes.js')
 
 
 const PORT = process.env.PORT || 8080
@@ -39,3 +40,4 @@ app.use('/v1/locadora/filme', moviesRoutes)
 app.use('/v1/locadora/genero', genresRoutes)
 app.use('/v1/locadora/pais', countriesRoutes)
 app.use('/v1/locadora/plataforma', platformRoutes)
+app.use('/v1/locadora/classificacao', classificationRoutes)
